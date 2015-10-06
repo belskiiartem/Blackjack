@@ -17,6 +17,7 @@
     <property name="hbm2ddl.auto">update</property>
     <mapping class="belskii.artem.blackjack.dao.account.Account"/>
     <mapping class="belskii.artem.blackjack.dao.gamer.Gamer"/>
+    <mapping class="belskii.artem.blackjack.dao.journal.Journal"/>
   </session-factory>
 
 </hibernate-configuration>

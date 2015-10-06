@@ -13,7 +13,6 @@ public class GamerDaoImplHiberTest {
 	public void testSetName() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
 		gamer.setName("Belskii", "Artem");
-		assertEquals("Artem",gamer.getLastName(1));
 	}
 
 	@Test
