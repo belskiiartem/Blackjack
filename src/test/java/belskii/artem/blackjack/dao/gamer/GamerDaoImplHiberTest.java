@@ -18,19 +18,19 @@ public class GamerDaoImplHiberTest {
 	@Test
 	public void testGetFirstName() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals("Belskii", gamer.getFirstName(1));
+		assertEquals("Belskii", gamer.getFirstName(2));
 	}
 
 	@Test
 	public void testGetLastName() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals("Belskii", gamer.getFirstName(1));
+		assertEquals("Belskii", gamer.getFirstName(2));
 	}
 
 	@Test
 	public void testGetAccountId() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals(String.class, gamer.getAccountId(1).getClass());
+		assertEquals(String.class, gamer.getAccountId(2).getClass());
 	}
 
 }

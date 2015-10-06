@@ -12,7 +12,7 @@ public class Gamer {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private String accountId;
+	private String accountId="demo account";
 	
 	public Gamer(){}
 	
