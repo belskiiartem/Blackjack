@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import belskii.artem.blackjack.dao.user.Users;
+import belskii.artem.blackjack.dao.gamer.Gamer;
 
 public class AccountDaoImplHiber implements AccountDao{
 	
