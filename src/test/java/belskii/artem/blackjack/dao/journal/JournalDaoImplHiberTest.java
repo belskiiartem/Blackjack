@@ -10,7 +10,7 @@ public class JournalDaoImplHiberTest {
 	@Test
 	public void testGetJournal() {
 		JournalDaoImplHiber journal = new JournalDaoImplHiber();
-		assertTrue(journal.getJournal(1).size()>0);
+		assertTrue(journal.getUserJournal(1).size()>0);
 
 	}
 

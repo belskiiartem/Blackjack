@@ -53,9 +53,6 @@ public class Journal {
 	public void setAmount(long amount) {
 		this.amount = amount;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
 
 	public long getAccountId() {
 		return accountId;
@@ -63,6 +60,14 @@ public class Journal {
 
 	public void setAccountId(long accountId) {
 		this.accountId = accountId;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

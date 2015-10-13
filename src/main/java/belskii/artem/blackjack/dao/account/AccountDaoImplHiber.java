@@ -1,11 +1,17 @@
 package belskii.artem.blackjack.dao.account;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import belskii.artem.blackjack.dao.gamer.Gamer;
+import belskii.artem.blackjack.dao.journal.Journal;
 
 public class AccountDaoImplHiber implements AccountDao{
 	
@@ -27,11 +33,11 @@ public class AccountDaoImplHiber implements AccountDao{
 		return result;
 	}
 	
-	public void addAccount(String cardId, long balance) {
+	public void addAccount(String cardNumber, long balance) {
 		Transaction transaction = null;
 		Session session = null;
 		Account account=new Account();
-		account.setCardId(cardId);
+		account.setCardNumber(cardNumber);
 		account.setBalance(balance);
 		try {
 			session = sessionFactory.openSession();
@@ -45,8 +51,8 @@ public class AccountDaoImplHiber implements AccountDao{
 		}
 	}
 
-	public String getCardId(long id) {
-		return this.fetchDate(id).getCardId();
+	public String getCardNumber(long id) {
+		return this.fetchDate(id).getCardNumber();
 	}
 
 	public long getBalance(long id) {
@@ -68,6 +74,41 @@ public class AccountDaoImplHiber implements AccountDao{
 		} finally {
 			session.close();
 		}
+	}
+
+	
+	public long findCard(String cardNumber) {
+		Transaction transaction = null;
+		Session session = null;
+			long result = -1;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			//need to refactor!!! (can't find string value)
+			//result=(ArrayList<Account>) session.createCriteria(Account.class).add(Restrictions.eq("balance", 10L)).list(); //work!
+			//result=(ArrayList<Account>) session.createCriteria(Account.class).add(Restrictions.eq("cardNumber", cardNumber)).list(); //null
+			ArrayList list = (ArrayList) session.createCriteria(Account.class).list();
+			for (int i=0; i<list.size(); i++){
+				Account acc = (Account) list.get(i);
+					if (acc.getCardNumber().equals(cardNumber)){
+						result=acc.getId();
+					}
+						}
+
+
+			transaction.commit();
+			} catch (Exception e) {
+				if (transaction != null) {
+					transaction.rollback();
+				}
+			} finally {
+				session.close();
+			}
+		return result;
+	}
+
+	public Account getInfo(long accId) {
+		return this.fetchDate(accId);
 	}
 
 }

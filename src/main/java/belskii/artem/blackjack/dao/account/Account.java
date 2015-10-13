@@ -10,7 +10,7 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	private String CardId;
+	private String cardNumber;
 	private long balance;
 	
 	public long getId() {
@@ -19,17 +19,17 @@ public class Account {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getCardId() {
-		return CardId;
-	}
-	public void setCardId(String cardId) {
-		CardId = cardId;
-	}
 	public long getBalance() {
 		return balance;
 	}
 	public void setBalance(long balance) {
 		this.balance = balance;
+	}
+	public String getCardNumber() {
+		return cardNumber;
+	}
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 	
 

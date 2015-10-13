@@ -14,7 +14,7 @@ import org.hibernate.criterion.Restrictions;
 public class JournalDaoImplHiber implements JournalDao{
 	SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-	public List getJournal(long userId) {
+	public ArrayList getUserJournal(long userId) {
 		ArrayList<Journal> arr=new ArrayList<Journal>();
 		Transaction transaction = null;
 		Session session = null;
