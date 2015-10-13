@@ -24,7 +24,7 @@ import belskii.artem.blackjack.dao.gamer.GamerDaoImplHiber;
 import belskii.artem.blackjack.dao.journal.Journal;
 import belskii.artem.blackjack.dao.journal.JournalDao;
 import belskii.artem.blackjack.dao.journal.JournalDaoImplHiber;
-import belskii.artem.blackjeck.game.Game;
+import belskii.artem.blackjack.game.Game;
 
 @Controller
 public class MainController {

@@ -1,4 +1,4 @@
-package belskii.artem.blackjeck.game;
+package belskii.artem.blackjack.game;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import belskii.artem.blackjack.dao.deck.Card;
+import belskii.artem.blackjack.game.Game;
 
 public class GameTest {
 	Game game = new Game();

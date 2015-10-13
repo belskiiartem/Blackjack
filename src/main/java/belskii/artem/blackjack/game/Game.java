@@ -1,4 +1,4 @@
-package belskii.artem.blackjeck.game;
+package belskii.artem.blackjack.game;
 
 import java.util.ArrayList;
 import java.util.List;
