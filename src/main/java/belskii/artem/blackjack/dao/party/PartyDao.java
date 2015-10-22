@@ -3,7 +3,7 @@ package belskii.artem.blackjack.dao.party;
 import java.util.List;
 
 public interface PartyDao {
-	public void shuffleDeck(String partyId);
+	public void shuffleDeck(String partyId, long bet);
 	public List<Card> gamerCardsOnHend(String partyId);
 	public List<Card> bankCardsOnHend(String partyId);
 	public Party gamerHit(String partyId);

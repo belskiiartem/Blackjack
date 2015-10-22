@@ -14,11 +14,11 @@ public class PartyDaoImplHiber implements PartyDao {
 	Party party = null;
 	SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-	PartyDaoImplHiber() {
+	public PartyDaoImplHiber() {
 		party = new Party();
 	}
 
-	public void shuffleDeck(String partyId) {
+	public void shuffleDeck(String partyId, long bet) {
 		String[] color = { "Clubs", "Diamonds", "Hearts", "Spades" };
 		String[] rank = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" };
 		ArrayList<Card> deck = new ArrayList<Card>();
@@ -34,6 +34,7 @@ public class PartyDaoImplHiber implements PartyDao {
 			Collections.shuffle(deck);
 			party.setPartyId(partyId);
 			party.setDeck(deck);
+			party.setBet(bet);
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			session.saveOrUpdate(party);
@@ -60,14 +61,12 @@ public class PartyDaoImplHiber implements PartyDao {
 	public Party gamerHit(String partyId) {
 		Transaction transaction = null;
 		Session session = null;
-		Party paty = new Party();
+		Party party = this.getCurrentPaty(partyId);
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			paty = this.getCurrentPaty(partyId);
-			ArrayList<Card> empty = new ArrayList<Card>();
-			paty.gamerHit();
-			session.saveOrUpdate(paty);
+			party.gamerHit();
+			session.saveOrUpdate(party);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,17 +76,16 @@ public class PartyDaoImplHiber implements PartyDao {
 		} finally {
 			session.close();
 		}
-		return paty;
+		return party;
 	}
 
 	public Party bankHit(String partyId) {
 		Transaction transaction = null;
 		Session session = null;
-		Party paty = new Party();
+		Party paty = this.getCurrentPaty(partyId);
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			paty = this.getCurrentPaty(partyId);
 			paty.bankHit();
 			session.saveOrUpdate(paty);
 			transaction.commit();
@@ -102,6 +100,7 @@ public class PartyDaoImplHiber implements PartyDao {
 		return paty;
 	}
 
+	
 	private Party getCurrentPaty(String partyId) {
 		Transaction transaction = null;
 		Session session = null;

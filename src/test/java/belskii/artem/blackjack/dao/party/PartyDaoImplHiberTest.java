@@ -20,13 +20,13 @@ public class PartyDaoImplHiberTest {
 	@Test
 	public void testShuffleDeck() {
 		PartyDaoImplHiber party = new PartyDaoImplHiber();
-		party.shuffleDeck(sessionId);
+		party.shuffleDeck(sessionId, 50L);
 	}
 	
 	@Test
 	public void testGamerHit() {
 		PartyDaoImplHiber party = new PartyDaoImplHiber();
-		party.shuffleDeck(sessionId);
+		party.shuffleDeck(sessionId, 50L);
 		party.gamerHit(sessionId);
 		assertTrue(party.gamerCardsOnHend(sessionId).size()>0& party.gamerCardsOnHend(sessionId).size()<51);
 	}
@@ -35,7 +35,7 @@ public class PartyDaoImplHiberTest {
 	@Test
 	public void testBankHit() {
 		PartyDaoImplHiber party = new PartyDaoImplHiber();
-		party.shuffleDeck(sessionId);
+		party.shuffleDeck(sessionId, 50L);
 		party.bankHit(sessionId);
 		assertTrue(party.bankCardsOnHend(sessionId).size()>0 & party.bankCardsOnHend(sessionId).size()<51);
 
@@ -44,7 +44,7 @@ public class PartyDaoImplHiberTest {
 	@Test
 	public void testGamerCardsOnHend() {
 		PartyDaoImplHiber party = new PartyDaoImplHiber();
-		party.shuffleDeck(sessionId);
+		party.shuffleDeck(sessionId, 50L);
 		party.gamerHit(sessionId);
 		assertTrue(party.gamerCardsOnHend(sessionId).size()>0& party.gamerCardsOnHend(sessionId).size()<51);
 	}
@@ -52,7 +52,7 @@ public class PartyDaoImplHiberTest {
 	@Test
 	public void testBankCardsOnHend() {
 		PartyDaoImplHiber party = new PartyDaoImplHiber();
-		party.shuffleDeck(sessionId);
+		party.shuffleDeck(sessionId, 50L);
 		party.bankHit(sessionId);
 		assertTrue(party.bankCardsOnHend(sessionId).size()>0 & party.bankCardsOnHend(sessionId).size()<51);
 

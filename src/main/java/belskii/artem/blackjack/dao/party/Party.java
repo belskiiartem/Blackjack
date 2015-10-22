@@ -19,6 +19,7 @@ public class Party {
 	private ArrayList<Card> gamerCardsOnHend;
 	private ArrayList<Card> bankCardsOnHend;
 	private ArrayList<Card> deck;
+	private long bet;
 
 	Party() {
 		gamerCardsOnHend = new ArrayList<Card>();
@@ -78,5 +79,13 @@ public class Party {
 		Card card = deck.get(deck.size() - 1);
 		this.bankCardsOnHend.add(card);
 		deck.remove(deck.size() - 1);
+	}
+
+	public long getBet() {
+		return bet;
+	}
+
+	public void setBet(long bet) {
+		this.bet = bet;
 	}
 }
