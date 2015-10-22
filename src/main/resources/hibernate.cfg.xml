@@ -13,11 +13,13 @@
     <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
     <property name="current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
-    <property name="dialect">org.hibernate.dialect.PostgreSQL92Dialect</property>
+    <property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
     <property name="hbm2ddl.auto">update</property>
+    
     <mapping class="belskii.artem.blackjack.dao.account.Account"/>
     <mapping class="belskii.artem.blackjack.dao.gamer.Gamer"/>
     <mapping class="belskii.artem.blackjack.dao.journal.Journal"/>
+    <mapping class="belskii.artem.blackjack.dao.party.Party"/>
   </session-factory>
 
 </hibernate-configuration>

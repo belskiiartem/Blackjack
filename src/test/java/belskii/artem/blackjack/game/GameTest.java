@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import belskii.artem.blackjack.dao.deck.Card;
+import belskii.artem.blackjack.dao.party.Card;
 import belskii.artem.blackjack.game.Game;
 
 public class GameTest {
@@ -14,13 +14,13 @@ public class GameTest {
 	
 	@Test
 	public void testReturnArrayWithBankCardAndGamerCard() {
-		assertEquals(ArrayList.class,game.startGame(50L).getClass());
+		assertEquals(ArrayList.class,game.startGame(50L, "sessionId").getClass());
 	}
 	
 	@Test
-	public void testHit(){
-		game.startGame(50L);
-		assertEquals(Card.class, game.hit().getClass());
+	public void testHitAll(){
+		game.startGame(50L, "sessionId");
+		assertEquals(Card.class, game.hitAll("sessionId").getClass());
 	}
 
 }

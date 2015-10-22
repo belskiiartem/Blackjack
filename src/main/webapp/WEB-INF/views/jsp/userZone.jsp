@@ -20,7 +20,7 @@ You payment history is:
 	</c:forEach>
 </table>
 
-<form action="./gameZone" method="POST">
+<form action="./startGame" method="POST">
 	 <h2>And now you can start new game with bet:</h2>
 	 <input type="text" max="16"  name="bet" size="20px" value="1"> <br>
 	<input type="submit" value="submit">

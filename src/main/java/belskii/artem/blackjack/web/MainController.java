@@ -37,7 +37,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/userzone", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("cardId") String cardId, @ModelAttribute("bet") String bet, HttpServletResponse response) {
+	public ModelAndView login(@ModelAttribute("cardId") String cardId, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("userZone");
 		Gamer gamerInfo = gamer.getUserInfo(cardId);
@@ -53,22 +53,37 @@ public class MainController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/gameZone", method = RequestMethod.POST)
-	public ModelAndView startGame(HttpServletRequest request){
+	@RequestMapping(value="/startGame", method = RequestMethod.POST)
+	public ModelAndView startGame(@ModelAttribute("bet") String bet, HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		String cardId="";
+		String jSessionId="";
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 	        for (int i = 0; i < cookies.length; i++) {
 	        	if (cookies[i].getName().equals("cardId")){
 	        		cardId=cookies[i].getValue().toString();
 	        	}
+	        	if (cookies[i].getName().toLowerCase().equals("jsessionid")){
+	        		jSessionId=cookies[i].getValue().toString();
+	        	}
+
 	        }
 		}
-		System.out.println("CardId"+cardId);
-		
+		Game game = new Game();
+		ArrayList deck = game.startGame(Long.valueOf(bet), jSessionId);
+		ArrayList bankCard=(ArrayList) deck.get(0);
+		ArrayList gamerCard=(ArrayList) deck.get(1);
 		modelAndView.setViewName("gameZone");
+		modelAndView.addObject("bankCard",bankCard);
+		modelAndView.addObject("gamerCard",gamerCard);
+		System.out.println("jSessionId: " + jSessionId);
 		return modelAndView;
 	}
+
+//	@RequestMapping(value="/game", method = RequestMethod.POST)
+//	public ModelAndView game(@ModelAttribute("bet") String bet, HttpServletRequest request){
+//		
+//	}
 	
 }
