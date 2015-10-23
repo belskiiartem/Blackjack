@@ -56,7 +56,7 @@ public class Game {
 			}
 
 			if (currentCard.getRank().equals("Ace")) {
-				if (count >= 21) {
+				if (count >= 10) {
 					count += 11;
 				} else {
 					count += 1;
@@ -77,4 +77,26 @@ public class Game {
 		return this.getBankCount(partyId);
 	}
 
+	public String getResult(String partyId){
+		String result="in process";
+		int bankCount=this.getGamerCount(partyId);
+		int gamerCount=this.getGamerCount(partyId);
+		
+		if (bankCount==21){
+			result="Black Jack!";
+		}
+		if (gamerCount==21){
+			result="Black Jack!";
+		}
+		if (bankCount>gamerCount & bankCount>=21){
+			result="Bank win!";
+		}
+		if (gamerCount>bankCount & gamerCount>=21){
+			result="Gamer win!";
+		} 
+		if (gamerCount == bankCount & bankCount >21){
+			
+		}
+		return result;
+	}
 }

@@ -4,21 +4,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints=
+@UniqueConstraint(columnNames = {"accountId"}))
 public class Gamer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)	
-	private Long id;
+	private long id;
 	private String firstName;
 	private String lastName;
-	private String accountId="demo account";
+	private long accountId;
 	
 	public Gamer(){}
 	
-	public Gamer(String firstName, String lastName) {
+	public Gamer(String firstName, String lastName, long accountID) {
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
+		this.setAccountId(accountID);
 	}
 	
 	public Long getId() {
@@ -39,10 +44,10 @@ public class Gamer {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getAccountId() {
+	public Long getAccountId() {
 		return accountId;
 	}
-	public void setAccountId(String accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
 }

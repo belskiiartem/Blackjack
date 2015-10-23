@@ -110,5 +110,4 @@ public class AccountDaoImplHiber implements AccountDao{
 	public Account getInfo(long accId) {
 		return this.fetchDate(accId);
 	}
-
 }

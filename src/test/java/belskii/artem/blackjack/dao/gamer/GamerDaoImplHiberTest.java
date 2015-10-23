@@ -15,32 +15,32 @@ public class GamerDaoImplHiberTest {
 	@Test
 	public void testAddGamer() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		gamer.addGamer("Belskii", "Artem");
+		gamer.addGamer("Artem", "Belskii", 1L);
 	}
 
 	@Test
 	public void testGetFirstName() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals("Belskii", gamer.getFirstName(1));
+		assertEquals("Artem", gamer.getFirstName(2));
 	}
 
 	@Test
 	public void testGetLastName() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals("Belskii", gamer.getFirstName(1));
+		assertEquals("Belskii", gamer.getLastName(2));
 	}
 
 	@Test
 	public void testGetAccountId() {
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertEquals(String.class, gamer.getAccountId(1).getClass());
+		assertTrue(gamer.getAccountId(2)>=1);
 	}
 	
 	@Test
 	public void testGetUserInfo(){
 		GamerDaoImplHiber gamer = new GamerDaoImplHiber();
-		assertTrue(gamer.getUserInfo("1234567890123456").getLastName().length()>=1);
-		assertTrue(gamer.getUserInfo("1234567890123456").getFirstName().length()>=1);
+		assertEquals("",gamer.getUserInfo("1234567890123456").getLastName());
+		assertEquals("",gamer.getUserInfo("1234567890123456").getFirstName());
 		
 	}
 

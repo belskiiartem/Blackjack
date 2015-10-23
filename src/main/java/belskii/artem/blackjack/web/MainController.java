@@ -30,60 +30,52 @@ import belskii.artem.blackjack.game.Game;
 public class MainController {
 	
 	private GamerDao gamer=new GamerDaoImplHiber();
-	
+	private AccountDao account = new AccountDaoImplHiber();
+	private JournalDao journal = new JournalDaoImplHiber();
+	private Long BALANCE = 5000L;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(ModelMap model) {
 		return "main";
 	}
-	
-	@RequestMapping(value = "/userzone", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("cardId") String cardId, HttpServletResponse response) {
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute("cardId") String cardId, HttpServletResponse response){
+		String viewName="newUser";
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("userZone");
-		Gamer gamerInfo = gamer.getUserInfo(cardId);
-		AccountDao acc = new AccountDaoImplHiber(); 
-		Account userAccount = acc.getInfo(gamerInfo.getId());
-		JournalDao journal = new JournalDaoImplHiber();
-		ArrayList userJournal = (ArrayList) journal.getUserJournal(gamerInfo.getId());
-		
-		modelAndView.addObject("gamerInfo",gamerInfo);
-		modelAndView.addObject("account",userAccount);
-		modelAndView.addObject("journal",userJournal);
-		response.addCookie(new Cookie("cardId", cardId));
-		return modelAndView;
-	}
-
-	@RequestMapping(value="/startGame", method = RequestMethod.POST)
-	public ModelAndView startGame(@ModelAttribute("bet") String bet, HttpServletRequest request){
-		ModelAndView modelAndView = new ModelAndView();
-		String cardId="";
-		String jSessionId="";
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-	        for (int i = 0; i < cookies.length; i++) {
-	        	if (cookies[i].getName().equals("cardId")){
-	        		cardId=cookies[i].getValue().toString();
-	        	}
-	        	if (cookies[i].getName().toLowerCase().equals("jsessionid")){
-	        		jSessionId=cookies[i].getValue().toString();
-	        	}
-
-	        }
+		System.out.println(account.findCard(cardId));
+		if(account.findCard(cardId)>0){
+			viewName="userZone";
+			Gamer gamerInfo = gamer.getUserInfo(cardId);
+			System.out.println(gamerInfo.getFirstName());
+			modelAndView.addObject("firstName", gamerInfo.getFirstName());
+			modelAndView.addObject("lastName", gamerInfo.getLastName());
+			modelAndView.addObject("account",cardId);
+			modelAndView.addObject("balance", account.getBalance(account.findCard(cardId)));
+			modelAndView.addObject("journal", journal.getUserJournal(gamerInfo.getId()));
 		}
-		Game game = new Game();
-		ArrayList deck = game.startGame(Long.valueOf(bet), jSessionId);
-		ArrayList bankCard=(ArrayList) deck.get(0);
-		ArrayList gamerCard=(ArrayList) deck.get(1);
-		modelAndView.setViewName("gameZone");
-		modelAndView.addObject("bankCard",bankCard);
-		modelAndView.addObject("gamerCard",gamerCard);
-		System.out.println("jSessionId: " + jSessionId);
+		response.addCookie(new Cookie("cardId", cardId));
+		modelAndView.setViewName(viewName);
 		return modelAndView;
 	}
-
-//	@RequestMapping(value="/game", method = RequestMethod.POST)
-//	public ModelAndView game(@ModelAttribute("bet") String bet, HttpServletRequest request){
-//		
-//	}
 	
+	@RequestMapping(value="/newUser", method=RequestMethod.POST)
+	public ModelAndView newUser(@ModelAttribute("firstName") String firstName, @ModelAttribute("lastName") String lastName,
+								@ModelAttribute("cardId") String cardId){
+		AccountDao account = new AccountDaoImplHiber();
+		account.addAccount(cardId, BALANCE);
+		System.out.println(cardId);
+		System.out.println(account.findCard(cardId));
+		gamer.addGamer(firstName, lastName, account.findCard(cardId));
+		Gamer gamerInfo = gamer.getUserInfo(cardId);
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.addObject("firstName", gamerInfo.getFirstName());
+		modelAndView.addObject("lastName", gamerInfo.getLastName());
+		modelAndView.addObject("account",cardId);
+		modelAndView.addObject("balance", account.getBalance(account.findCard(cardId)));
+		modelAndView.addObject("journal", journal.getUserJournal(gamerInfo.getId()));
+		
+		modelAndView.setViewName("userZone");
+		return modelAndView;
+	}
 }

@@ -3,7 +3,7 @@
 
 <html>
 <body>
-<form action="./userzone" method="POST">
+<form action="./login" method="POST">
 	 <h2>Hello! You can use your card ID as login:</h2>
 	 <input type="text" max="16"  name="cardId" size="20px"> <br>
 	<input type="submit" value="submit">

@@ -1,7 +1,6 @@
 package belskii.artem.blackjack.dao.gamer;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -10,12 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
-import belskii.artem.blackjack.dao.account.Account;
 import belskii.artem.blackjack.dao.account.AccountDao;
 import belskii.artem.blackjack.dao.account.AccountDaoImplHiber;
-import belskii.artem.blackjack.dao.journal.Journal;
-import belskii.artem.blackjack.dao.journal.JournalDao;
-import belskii.artem.blackjack.dao.journal.JournalDaoImplHiber;
 
 public class GamerDaoImplHiber implements GamerDao {
 	SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -37,15 +32,15 @@ public class GamerDaoImplHiber implements GamerDao {
 		return gamer;
 	}
 
-	public void addGamer(String firstName, String lastName) {
+	public void addGamer(String firstName, String lastName, long accontId) {
 		Transaction transaction = null;
 		Session session = null;
 		Gamer user = null;
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			user = new Gamer(firstName, lastName);
-			session.saveOrUpdate(user);
+			user = new Gamer(firstName, lastName, accontId);
+			session.save(user);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
@@ -62,23 +57,24 @@ public class GamerDaoImplHiber implements GamerDao {
 		return this.fetchData(gamerId).getLastName();
 	}
 
-	public String getAccountId(long gamerId) {
+	public long getAccountId(long gamerId) {
 		return this.fetchData(gamerId).getAccountId();
 	}
 
 	public Gamer getUserInfo(String cardId) {
 		AccountDao acc = new AccountDaoImplHiber();
 		long accId = acc.findCard(cardId);
-		
 		Transaction transaction = null;
 		Session session = null;
-		Gamer gamer = new Gamer();
+		Gamer gamer = null;
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-   			Criteria criteria = session.createCriteria(Gamer.class);
-	        criteria.add(Restrictions.eq("accountId", String.valueOf(accId)));
-	        gamer = (Gamer) criteria.uniqueResult();
+			System.out.println(accId);
+	        gamer = (Gamer) session.createCriteria(Gamer.class).add(Restrictions.eq("accountId", accId)).uniqueResult();
+			System.out.println(accId);
+
+	        System.out.println("first name "+gamer.getFirstName());
 	        transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
