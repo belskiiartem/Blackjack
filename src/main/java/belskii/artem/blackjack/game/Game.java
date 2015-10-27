@@ -91,7 +91,7 @@ public class Game {
 			journal.newIvent(userId, "gamerWon", accountId, amount);
 			
 		} else if(gamerCount>21& bankCount>21 ){
-			result="noOneWin";
+			result="noOneWon";
 			journal.newIvent(userId, "gamerWon", accountId, amount);
 
 		} else if(gamerCount>21){
@@ -104,7 +104,7 @@ public class Game {
 		}
 		
 		else {
-			result="noOneWin";
+			result="noOneWon";
 			journal.newIvent(userId, "noOneWin", accountId, amount);
 
 		}

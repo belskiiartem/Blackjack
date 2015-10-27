@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-Gamer won!
+No one won...
 <a href="./">return to main page</a>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+Bank won!
+<a href="./">return to main page</a>
 </body>
 </html>

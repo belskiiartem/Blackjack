@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-Gamer won!
-<a href="./">return to main page</a>
+<h1>404!</h1>
 </body>
 </html>

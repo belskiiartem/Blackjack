@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+Gamer won! Blackjack!
+<a href="./">return to main page</a>
 </body>
 </html>
