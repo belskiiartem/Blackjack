@@ -88,13 +88,24 @@ public class MainController {
 
 	        }
 		}
-		modelAndView.setViewName("gameZone");
 		
 		game.startGame(jSessionId, bet);
+		
+		if (game.getBankCount(jSessionId)==21){
+			modelAndView.setViewName("bankWon");
+			game.getResult(jSessionId);
+		} else if(game.getGamerCount(jSessionId)==21){
+			modelAndView.setViewName("gamerZone");
+			game.getResult(jSessionId);
+		} else {
+			modelAndView.setViewName("gameZone");
+		}
+		
 		modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
 		modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
 		modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));
 		modelAndView.addObject("gamerCount", game.getGamerCount(jSessionId));
+		
 		return modelAndView;
 		}
 

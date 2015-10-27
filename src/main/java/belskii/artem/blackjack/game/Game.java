@@ -74,10 +74,10 @@ public class Game {
 		int gamerCount=this.getGamerCount(partyId);
 		
 		if (bankCount==21){
-			result="bankBlackJack";
+			result="bankWon";
 		}
 		else if (gamerCount==21){
-			result="gamerBlackJack";
+			result="gamerWon";
 		}
 		else if (bankCount>gamerCount & bankCount<=21){
 			result="bankWon";
