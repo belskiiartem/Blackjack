@@ -143,7 +143,7 @@ public class MainController {
 			modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));
 			modelAndView.addObject("gamerCount", game.getGamerCount(jSessionId));
 		} else {
-			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
+			viewName=game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
 			modelAndView.setViewName(viewName);
 			modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
 			modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
