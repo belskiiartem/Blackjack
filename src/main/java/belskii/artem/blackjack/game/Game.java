@@ -68,31 +68,45 @@ public class Game {
 		return count;
 	}
 
-	public String getResult(String partyId){
+	public String getResult(String partyId, Long userId, Long accountId, Long amount){
 		String result="";
+			
 		int bankCount=this.getBankCount(partyId);
 		int gamerCount=this.getGamerCount(partyId);
 		
 		if (bankCount==21){
 			result="bankWon";
+			journal.newIvent(userId, "bankWon", accountId, amount);
 		}
 		else if (gamerCount==21){
 			result="gamerWon";
+			journal.newIvent(userId, "gamerWon", accountId, amount);
 		}
 		else if (bankCount>gamerCount & bankCount<=21){
 			result="bankWon";
+			journal.newIvent(userId, "bankWon", accountId, amount);
+			
 		} else if(gamerCount>bankCount & gamerCount<=21){
 			result="gamerWon";
+			journal.newIvent(userId, "gamerWon", accountId, amount);
+			
 		} else if(gamerCount>21& bankCount>21 ){
 			result="noOneWin";
+			journal.newIvent(userId, "gamerWon", accountId, amount);
+
 		} else if(gamerCount>21){
 			result="bankWon";
+			journal.newIvent(userId, "bankWon", accountId, amount);
 		} else if(bankCount>21){
 			result="gamerWon";
+			journal.newIvent(userId, "gamerWon", accountId, amount);
+
 		}
 		
 		else {
 			result="noOneWin";
+			journal.newIvent(userId, "noOneWin", accountId, amount);
+
 		}
 		return result;
 	}

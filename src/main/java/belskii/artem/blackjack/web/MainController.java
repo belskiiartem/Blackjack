@@ -72,7 +72,7 @@ public class MainController {
 	}
 
 	@RequestMapping(path="/startGame", method=RequestMethod.POST)
-	public ModelAndView startGame(@ModelAttribute("bet") long bet, HttpServletRequest request){
+	public ModelAndView startGame(@ModelAttribute("bet") long bet, HttpServletRequest request, HttpServletResponse response){
 		ModelAndView modelAndView = new ModelAndView();
 		String cardId="";
 		String jSessionId="";
@@ -88,15 +88,16 @@ public class MainController {
 
 	        }
 		}
-		
+		response.addCookie(new Cookie("bet", String.valueOf(bet)));
+	
 		game.startGame(jSessionId, bet);
 		
 		if (game.getBankCount(jSessionId)==21){
 			modelAndView.setViewName("bankWon");
-			game.getResult(jSessionId);
+			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
 		} else if(game.getGamerCount(jSessionId)==21){
 			modelAndView.setViewName("gamerZone");
-			game.getResult(jSessionId);
+			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
 		} else {
 			modelAndView.setViewName("gameZone");
 		}
@@ -113,6 +114,7 @@ public class MainController {
 	public ModelAndView game(@ModelAttribute("action") String action, HttpServletRequest request){
 		String cardId="";
 		String jSessionId="";
+		long bet=0;
 		Cookie[] cookies = request.getCookies();
 		String viewName="gameZone";
 		ModelAndView modelAndView = new ModelAndView();
@@ -124,6 +126,9 @@ public class MainController {
 	        	}
 	        	if (cookies[i].getName().toLowerCase().equals("jsessionid")){
 	        		jSessionId=cookies[i].getValue().toString();
+	        	}
+	        	if (cookies[i].getName().toLowerCase().equals("bet")){
+	        		bet=Long.valueOf(cookies[i].getValue());
 	        	}
 
 	        }
@@ -138,7 +143,7 @@ public class MainController {
 			modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));
 			modelAndView.addObject("gamerCount", game.getGamerCount(jSessionId));
 		} else {
-			viewName=game.getResult(jSessionId);
+			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
 			modelAndView.setViewName(viewName);
 			modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
 			modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
