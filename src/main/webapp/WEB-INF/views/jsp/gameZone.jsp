@@ -5,14 +5,18 @@
 <body>
 <h1>game zone</h1>
 
-Bank card:
-	<c:forEach var="bank" items="${bankCard}" varStatus="loop">
+<p>Bank card:
+	<c:forEach var="bank" items="${bankCardsOnHend}" varStatus="loop">
 		<li><c:out value="${bank.rank}" /> of <c:out value="${bank.color}" /></li>
 	</c:forEach>
-Your card
-	<c:forEach var="gamer" items="${gamerCard}" varStatus="loop">
+<p>Bank count:
+<c:out value="${bankCount}"/>	
+<p>Your card
+	<c:forEach var="gamer" items="${gamerCardsOnHend}" varStatus="loop">
 		<li><c:out value="${gamer.rank}" /> of <c:out value="${gamer.color}" /></li>
 	</c:forEach>
+<p>You count:
+<c:out value="${gamerCount}"/>	
 
 <form action="./game" method="POST" >
  	<p>hit: <input type="radio" name="action" value="hit" checked>

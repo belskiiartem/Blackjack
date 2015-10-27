@@ -3,12 +3,16 @@ package belskii.artem.blackjack.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import belskii.artem.blackjack.dao.journal.JournalDao;
+import belskii.artem.blackjack.dao.journal.JournalDaoImplHiber;
 import belskii.artem.blackjack.dao.party.Card;
 import belskii.artem.blackjack.dao.party.PartyDao;
 import belskii.artem.blackjack.dao.party.PartyDaoImplHiber;
 
 public class Game {
 	PartyDao party = new PartyDaoImplHiber();
+	JournalDao journal = new JournalDaoImplHiber();
+	private int BANK_STOP_COUNT=16;
 
 	public void startGame(String partyId, long bet) {
 		party.shuffleDeck(partyId, bet);
@@ -50,13 +54,10 @@ public class Game {
 			Card currentCard = cardOnHends.get(i);
 			if (numbers.indexOf(currentCard.getRank()) > 0) {
 				count += Integer.valueOf(currentCard.getRank());
-			}
-			if (picture.indexOf(currentCard.getRank()) > 0) {
+			} else if (picture.indexOf(currentCard.getRank()) > 0) {
 				count += 10;
-			}
-
-			if (currentCard.getRank().equals("Ace")) {
-				if (count >= 10) {
+			} else if (currentCard.getRank().equals("Ace")) {
+				if (count <= 10) {
 					count += 11;
 				} else {
 					count += 1;
@@ -67,36 +68,52 @@ public class Game {
 		return count;
 	}
 
+	public String getResult(String partyId){
+		String result="";
+		int bankCount=this.getBankCount(partyId);
+		int gamerCount=this.getGamerCount(partyId);
+		
+		if (bankCount==21){
+			result="bankBlackJack";
+		}
+		else if (gamerCount==21){
+			result="gamerBlackJack";
+		}
+		else if (bankCount>gamerCount & bankCount<=21){
+			result="bankWon";
+		} else if(gamerCount>bankCount & gamerCount<=21){
+			result="gamerWon";
+		} else if(gamerCount>21& bankCount>21 ){
+			result="noOneWin";
+		} else if(gamerCount>21){
+			result="bankWon";
+		} else if(bankCount>21){
+			result="gamerWon";
+		}
+		
+		else {
+			result="noOneWin";
+		}
+		return result;
+	}
+	
+	public List<Card> getBankCardsOnHend(String partyId){
+		return party.bankCardsOnHend(partyId);
+	}
+	
+	public List<Card> getGamerCardsOnHend(String partyId){
+		return party.gamerCardsOnHend(partyId);
+	}
+
 	public int gamerHit(String partyId) {
 		party.gamerHit(partyId);
 		return this.getGamerCount(partyId);
 	}
 
 	public int bankHit(String partyId) {
-		party.bankHit(partyId);
+		if (this.getBankCount(partyId)<=BANK_STOP_COUNT){
+			party.bankHit(partyId);
+		}
 		return this.getBankCount(partyId);
-	}
-
-	public String getResult(String partyId){
-		String result="in process";
-		int bankCount=this.getGamerCount(partyId);
-		int gamerCount=this.getGamerCount(partyId);
-		
-		if (bankCount==21){
-			result="Black Jack!";
-		}
-		if (gamerCount==21){
-			result="Black Jack!";
-		}
-		if (bankCount>gamerCount & bankCount>=21){
-			result="Bank win!";
-		}
-		if (gamerCount>bankCount & gamerCount>=21){
-			result="Gamer win!";
-		} 
-		if (gamerCount == bankCount & bankCount >21){
-			
-		}
-		return result;
 	}
 }

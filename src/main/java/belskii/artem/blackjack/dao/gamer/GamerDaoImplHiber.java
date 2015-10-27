@@ -70,11 +70,7 @@ public class GamerDaoImplHiber implements GamerDao {
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			System.out.println(accId);
 	        gamer = (Gamer) session.createCriteria(Gamer.class).add(Restrictions.eq("accountId", accId)).uniqueResult();
-			System.out.println(accId);
-
-	        System.out.println("first name "+gamer.getFirstName());
 	        transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
