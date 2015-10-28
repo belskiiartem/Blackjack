@@ -99,9 +99,14 @@ public class MainController {
 		if (game.getBankCount(jSessionId)==21){
 			modelAndView.setViewName("bankWon");
 			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
+			
 		} else if(game.getGamerCount(jSessionId)==21){
 			modelAndView.setViewName("gamerZone");
-			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
+			long blackjeck=(long) (bet*1.5);
+			journal.newIvent(gamer.getUserInfo(cardId).getId(), "Blackjeck!", account.findCard(cardId), bet);
+			long currentBalance=account.getBalance(account.findCard(cardId));
+			long newBalance=(long) (currentBalance+(bet*1.5));
+			account.updateBalance(account.findCard(cardId), newBalance);
 		}
 		modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
 		modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
