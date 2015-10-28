@@ -33,7 +33,7 @@ public class Game {
 		return this.getCount(party.bankCardsOnHend(partyId));
 	}
 
-	private int getCount(List<Card> cardOnHends) {
+	public int getCount(List<Card> cardOnHends) {
 		int count = 0;
 		ArrayList<String> numbers = new ArrayList<String>();
 		ArrayList<String> picture = new ArrayList<String>();
@@ -57,7 +57,8 @@ public class Game {
 			Card currentCard = cardOnHends.get(i);
 			if (numbers.indexOf(currentCard.getRank()) > 0) {
 				count += Integer.valueOf(currentCard.getRank());
-			} else if (picture.indexOf(currentCard.getRank()) > 0) {
+			} else if (picture.indexOf(currentCard.getRank()) >= 0) {
+
 				count += 10;
 			} else if (currentCard.getRank().equals("Ace")) {
 				if (count <= 10) {
