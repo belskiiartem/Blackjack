@@ -89,8 +89,12 @@ public class MainController {
 	        }
 		}
 		response.addCookie(new Cookie("bet", String.valueOf(bet)));
-	
-		game.startGame(jSessionId, bet);
+		if (account.getBalance(account.findCard(cardId))>bet){
+			game.startGame(jSessionId, bet);
+			modelAndView.setViewName("gameZone");
+		} else {
+			modelAndView.setViewName("sorry");
+		}
 		
 		if (game.getBankCount(jSessionId)==21){
 			modelAndView.setViewName("bankWon");
@@ -98,10 +102,7 @@ public class MainController {
 		} else if(game.getGamerCount(jSessionId)==21){
 			modelAndView.setViewName("gamerZone");
 			game.getResult(jSessionId, gamer.getUserInfo(cardId).getId(), account.findCard(cardId), bet);
-		} else {
-			modelAndView.setViewName("gameZone");
 		}
-		
 		modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
 		modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
 		modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));

@@ -3,6 +3,8 @@ package belskii.artem.blackjack.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import belskii.artem.blackjack.dao.account.AccountDao;
+import belskii.artem.blackjack.dao.account.AccountDaoImplHiber;
 import belskii.artem.blackjack.dao.journal.JournalDao;
 import belskii.artem.blackjack.dao.journal.JournalDaoImplHiber;
 import belskii.artem.blackjack.dao.party.Card;
@@ -12,6 +14,7 @@ import belskii.artem.blackjack.dao.party.PartyDaoImplHiber;
 public class Game {
 	PartyDao party = new PartyDaoImplHiber();
 	JournalDao journal = new JournalDaoImplHiber();
+	AccountDao account = new AccountDaoImplHiber();
 	private int BANK_STOP_COUNT=16;
 
 	public void startGame(String partyId, long bet) {
@@ -68,7 +71,7 @@ public class Game {
 		return count;
 	}
 
-	public String getResult(String partyId, Long userId, Long accountId, Long amount){
+	public String getResult(String partyId, Long userId, Long accountId, Long bet){
 		String result="";
 			
 		int bankCount=this.getBankCount(partyId);
@@ -76,36 +79,57 @@ public class Game {
 		
 		if (bankCount==21){
 			result="bankWon";
-			journal.newIvent(userId, "bankWon", accountId, amount);
+			journal.newIvent(userId, "bankWon", accountId, bet);
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance-bet;
+			account.updateBalance(accountId, newBalance);
+			
 		}
 		else if (gamerCount==21){
 			result="gamerWon";
-			journal.newIvent(userId, "gamerWon", accountId, amount);
+			journal.newIvent(userId, "gamerWon", accountId, bet);
+			
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance+bet;
+			account.updateBalance(accountId, newBalance);
 		}
 		else if (bankCount>gamerCount & bankCount<=21){
 			result="bankWon";
-			journal.newIvent(userId, "bankWon", accountId, amount);
+			journal.newIvent(userId, "bankWon", accountId, bet);
+			
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance-bet;
+			account.updateBalance(accountId, newBalance);
 			
 		} else if(gamerCount>bankCount & gamerCount<=21){
 			result="gamerWon";
-			journal.newIvent(userId, "gamerWon", accountId, amount);
+			journal.newIvent(userId, "gamerWon", accountId, bet);
+			
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance+bet;
+			account.updateBalance(accountId, newBalance);
 			
 		} else if(gamerCount>21& bankCount>21 ){
 			result="noOneWon";
-			journal.newIvent(userId, "gamerWon", accountId, amount);
-
+			journal.newIvent(userId, "gamerWon", accountId, bet);
+			
 		} else if(gamerCount>21){
 			result="bankWon";
-			journal.newIvent(userId, "bankWon", accountId, amount);
+			journal.newIvent(userId, "bankWon", accountId, bet);
+			
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance-bet;
+			account.updateBalance(accountId, newBalance);
 		} else if(bankCount>21){
 			result="gamerWon";
-			journal.newIvent(userId, "gamerWon", accountId, amount);
+			journal.newIvent(userId, "gamerWon", accountId, bet);
+			long currentBalance=account.getBalance(accountId);
+			long newBalance=currentBalance+bet;
+			account.updateBalance(accountId, newBalance);
 
-		}
-		
-		else {
+		} else {
 			result="noOneWon";
-			journal.newIvent(userId, "noOneWin", accountId, amount);
+			journal.newIvent(userId, "noOneWin", accountId, bet);
 
 		}
 		return result;
