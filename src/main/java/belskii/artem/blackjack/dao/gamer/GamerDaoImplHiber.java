@@ -1,8 +1,5 @@
 package belskii.artem.blackjack.dao.gamer;
 
-import java.util.ArrayList;
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,7 +11,8 @@ import belskii.artem.blackjack.dao.account.AccountDaoImplHiber;
 
 public class GamerDaoImplHiber implements GamerDao {
 	SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-
+	public GamerDaoImplHiber(){}
+	
 	private Gamer fetchData(long gamerId) {
 		Transaction transaction = null;
 		Session session = null;
@@ -63,6 +61,7 @@ public class GamerDaoImplHiber implements GamerDao {
 
 	public Gamer getUserInfo(String cardId) {
 		AccountDao acc = new AccountDaoImplHiber();
+		//AccountDao acc = (AccountDao) context.getBean("accountDaoImpl");
 		long accId = acc.findCard(cardId);
 		Transaction transaction = null;
 		Session session = null;

@@ -16,6 +16,8 @@ import belskii.artem.blackjack.dao.journal.Journal;
 public class AccountDaoImplHiber implements AccountDao{
 	
 	SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+	public AccountDaoImplHiber(){}
+
 	private Account fetchDate( long id){
 		Transaction transaction = null;
 		Session session = null;

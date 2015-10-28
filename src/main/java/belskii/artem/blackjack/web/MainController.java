@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,10 +24,10 @@ import belskii.artem.blackjack.game.Game;
 
 @Controller
 public class MainController {
-	
-	private GamerDao gamer=new GamerDaoImplHiber();
-	private AccountDao account = new AccountDaoImplHiber();
-	private JournalDao journal = new JournalDaoImplHiber();
+	ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/application-context.xml");
+	private GamerDao gamer=(GamerDao) context.getBean("gamerDaoImpl");//new GamerDaoImplHiber();
+	private AccountDao account = (AccountDao) context.getBean("accountDaoImpl");//new AccountDaoImplHiber();
+	private JournalDao journal = (JournalDao) context.getBean("journalDaoImpl");//new JournalDaoImplHiber();
 	private Game game = new Game();
 	private Long BALANCE = 5000L;
 
@@ -89,9 +91,13 @@ public class MainController {
 	        }
 		}
 		response.addCookie(new Cookie("bet", String.valueOf(bet)));
-		if (account.getBalance(account.findCard(cardId))>bet){
+		if (account.getBalance(account.findCard(cardId))>=bet){
 			game.startGame(jSessionId, bet);
 			modelAndView.setViewName("gameZone");
+			modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
+			modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
+			modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));
+			modelAndView.addObject("gamerCount", game.getGamerCount(jSessionId));
 		} else {
 			modelAndView.setViewName("sorry");
 		}
@@ -108,10 +114,7 @@ public class MainController {
 			long newBalance=(long) (currentBalance+(bet*1.5));
 			account.updateBalance(account.findCard(cardId), newBalance);
 		}
-		modelAndView.addObject("bankCardsOnHend", game.getBankCardsOnHend(jSessionId));
-		modelAndView.addObject("bankCount", game.getBankCount(jSessionId));
-		modelAndView.addObject("gamerCardsOnHend", game.getGamerCardsOnHend(jSessionId));
-		modelAndView.addObject("gamerCount", game.getGamerCount(jSessionId));
+		
 		
 		return modelAndView;
 		}
